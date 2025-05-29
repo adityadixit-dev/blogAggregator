@@ -1,5 +1,5 @@
-import { setUser } from "../config";
-import { createUser, getUserByName } from "../lib/db/queries/users";
+import { getCurrentUser, setUser } from "../config";
+import { createUser, getUserByName, getUsers } from "../lib/db/queries/users";
 
 export async function handlerLogin(
   cmdName: string,
@@ -28,8 +28,8 @@ export async function handlerRegister(
   const result = await createUser(userName);
   if (result) {
     setUser(userName);
-    console.log(`${userName} Created`);
-    console.log(result);
+    console.log(`User ${userName} Created`);
+    // console.log(result);
   }
 }
 
@@ -42,5 +42,19 @@ function checkArgsLenOrThrowError(
     const errMsg = `${cmdName} is expected to have ${expArgsLen} arguements`;
     console.log(errMsg);
     throw new Error(errMsg);
+  }
+}
+
+export async function handlerUsers(_: string): Promise<void> {
+  const allUsers: string[] = await getUsers();
+
+  const currentUser = getCurrentUser();
+
+  for (const user of allUsers) {
+    if (user === currentUser) {
+      console.log(`* ${user} (current)`);
+    } else {
+      console.log(`* ${user}`);
+    }
   }
 }

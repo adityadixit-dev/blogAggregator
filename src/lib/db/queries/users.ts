@@ -17,3 +17,8 @@ export async function getUserByName(name: string) {
 export async function deleteAllUsers() {
   await db.delete(users);
 }
+
+export async function getUsers(): Promise<string[]> {
+  const namesOfUsers = await db.select({ name: users.name }).from(users);
+  return namesOfUsers.map((user) => user.name);
+}
