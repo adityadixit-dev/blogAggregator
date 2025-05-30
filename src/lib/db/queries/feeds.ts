@@ -1,5 +1,5 @@
 import { db } from "..";
-import { feeds } from "../schema";
+import { Feed, feeds } from "../schema";
 
 export async function createFeed(userUUID: string, feedName: string, feedUrl: string) {
   try {
@@ -17,4 +17,9 @@ export async function createFeed(userUUID: string, feedName: string, feedUrl: st
     console.log("Error creating Feed");
     throw new Error(`${(err as Error).message}`);
   }
+}
+
+export async function getAllFeeds() {
+  const allFeeds: Feed[] = await db.select().from(feeds);
+  return allFeeds;
 }

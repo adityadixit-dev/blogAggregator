@@ -18,6 +18,11 @@ export async function getUserByUUID(name: string) {
   return result[0].uuid;
 }
 
+export async function getNameFromUUID(uuid: string) {
+  const result = await db.select({ name: users.name }).from(users).where(eq(users.id, uuid));
+  return result[0].name;
+}
+
 export async function deleteAllUsers() {
   await db.delete(users);
 }
