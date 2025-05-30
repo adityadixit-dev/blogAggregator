@@ -1,10 +1,7 @@
 import { getCurrentUser, setUser } from "../config";
 import { createUser, getUserByName, getUsers } from "../lib/db/queries/users";
 
-export async function handlerLogin(
-  cmdName: string,
-  ...args: string[]
-): Promise<void> {
+export async function handlerLogin(cmdName: string, ...args: string[]): Promise<void> {
   checkArgsLenOrThrowError(cmdName, 1, ...args);
 
   const userName = args[0];
@@ -19,10 +16,7 @@ export async function handlerLogin(
   console.log(`Username has been set to ${userName}`);
 }
 
-export async function handlerRegister(
-  cmdName: string,
-  ...args: string[]
-): Promise<void> {
+export async function handlerRegister(cmdName: string, ...args: string[]): Promise<void> {
   checkArgsLenOrThrowError(cmdName, 1, ...args);
   const userName = args[0];
   const result = await createUser(userName);
@@ -33,11 +27,7 @@ export async function handlerRegister(
   }
 }
 
-function checkArgsLenOrThrowError(
-  cmdName: string,
-  expArgsLen: number,
-  ...args: string[]
-) {
+export function checkArgsLenOrThrowError(cmdName: string, expArgsLen: number, ...args: string[]) {
   if (args.length !== expArgsLen) {
     const errMsg = `${cmdName} is expected to have ${expArgsLen} arguements`;
     console.log(errMsg);

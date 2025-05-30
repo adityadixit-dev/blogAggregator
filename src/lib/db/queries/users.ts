@@ -5,13 +5,17 @@ import { firstOrUndefined } from "./utils";
 
 export async function createUser(name: string) {
   const [result] = await db.insert(users).values({ name: name }).returning();
-
   return result;
 }
 
 export async function getUserByName(name: string) {
   const result = await db.select().from(users).where(eq(users.name, name));
   return firstOrUndefined(result);
+}
+
+export async function getUserByUUID(name: string) {
+  const result = await db.select({ uuid: users.id }).from(users).where(eq(users.name, name));
+  return result[0].uuid;
 }
 
 export async function deleteAllUsers() {
