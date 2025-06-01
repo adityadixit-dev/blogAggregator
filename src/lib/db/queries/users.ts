@@ -2,10 +2,15 @@ import { db } from "..";
 import { users } from "../schema";
 import { eq } from "drizzle-orm";
 import { firstOrUndefined } from "./utils";
+import { getCurrentUser } from "../../../config";
 
 export async function createUser(name: string) {
   const [result] = await db.insert(users).values({ name: name }).returning();
   return result;
+}
+
+export async function getCurrUserObj() {
+  return await getUserByName(getCurrentUser());
 }
 
 export async function getUserByName(name: string) {
