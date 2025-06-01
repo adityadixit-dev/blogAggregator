@@ -4,15 +4,19 @@ import { checkArgsLenOrThrowError } from "./users";
 import { Feed, User } from "../lib/db/schema";
 import { createFeedFollow } from "../lib/db/queries/feed_follows";
 
-export async function handlerAddFeed(cmdName: string, ...args: string[]): Promise<void> {
+export async function handlerAddFeed(
+  cmdName: string,
+  currUserObj: User,
+  ...args: string[]
+): Promise<void> {
   checkArgsLenOrThrowError(cmdName, 2, ...args);
   const feedName = args[0];
   const feedUrl = args[1];
 
-  const currUserObj = await getCurrUserObj();
-  if (!currUserObj) {
-    throw new Error("User is undefined in handlerAddFeed");
-  }
+  // const currUserObj = await getCurrUserObj();
+  // if (!currUserObj) {
+  //   throw new Error("User is undefined in handlerAddFeed");
+  // }
 
   const userFeed = await createFeed(feedName, feedUrl);
   if (!userFeed) {

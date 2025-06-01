@@ -5,14 +5,19 @@ import { getUserByName } from "../lib/db/queries/users";
 import { User } from "../lib/db/schema";
 import { checkArgsLenOrThrowError } from "./users";
 
-export async function handlerFollow(cmdName: string, ...args: string[]) {
+export async function handlerFollow(cmdName: string, userObj: User, ...args: string[]) {
   checkArgsLenOrThrowError(cmdName, 1, ...args);
   const nameOfCurrentUser = getCurrentUser();
   const feedURL = args[0];
-  const userObj = await getUserByName(nameOfCurrentUser);
   const feedObj = await getFeedFromUrl(feedURL);
-  if (!userObj || !feedObj) {
-    throw new Error("Invalid or Null User and/or Invalid Feed");
+
+  // const userObj = await getUserByName(nameOfCurrentUser);
+  // if (!userObj || !feedObj) {
+  //   throw new Error("Invalid or Null User and/or Invalid Feed");
+  // }
+
+  if (!feedObj) {
+    throw new Error("Invalid Feed Object");
   }
 
   const result = await createFeedFollow(userObj, feedObj);
