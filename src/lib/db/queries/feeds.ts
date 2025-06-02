@@ -3,6 +3,7 @@ import { Feed, feeds } from "../schema";
 import { eq, sql } from "drizzle-orm";
 import { firstOrUndefined } from "./utils";
 import { fetchFeed } from "../../rss";
+import { createPost } from "./posts";
 
 export async function createFeed(feedName: string, feedUrl: string) {
   const feedIfFeedExists = await getFeedFromUrl(feedUrl);
@@ -70,6 +71,14 @@ export async function scrapeFeeds() {
     console.log(`Getting Data from Feed: ${rssFeed.channel.title}`);
     console.log();
     for (const item of rssFeed.channel.item) {
+      //the item here is actually the POST
+      const result = await createPost(
+        item.title,
+        item.link,
+        nextFeed.id,
+        item.description,
+        item.pubDate,
+      );
       console.log(item.title);
     }
     console.log(`----End of Data from : ${rssFeed.channel.title}`);
