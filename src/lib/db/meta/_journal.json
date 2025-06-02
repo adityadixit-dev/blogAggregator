@@ -22,6 +22,13 @@
       "when": 1748756606375,
       "tag": "0002_stale_valkyrie",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1748832822073,
+      "tag": "0003_striped_pyro",
+      "breakpoints": true
     }
   ]
 }

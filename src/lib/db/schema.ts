@@ -1,3 +1,4 @@
+import { sql } from "drizzle-orm";
 import { pgTable, timestamp, uuid, text, unique } from "drizzle-orm/pg-core";
 
 export const users = pgTable("users", {
@@ -21,6 +22,7 @@ export const feeds = pgTable("feeds", {
     .$onUpdate(() => new Date()),
   name: text("name").notNull(),
   url: text("url").notNull().unique(),
+  lastFetchedAt: timestamp("last_fetched_at").default(sql`null`),
 });
 
 export type Feed = typeof feeds.$inferSelect;

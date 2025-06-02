@@ -9,10 +9,9 @@ export async function handlerFeeds(_: string): Promise<void> {
   }
 
   for (const oneFeed of allFeeds) {
-    const userName = await getNameFromUUID(oneFeed.user_id);
-    console.log();
-    console.log(`${oneFeed.name} - ${userName}`);
-    console.log(`URL - ${oneFeed.url}`);
-    console.log();
+    if (!oneFeed) {
+      continue;
+    }
+    console.log(`Name: ${oneFeed.name} -  URL: ${oneFeed.url}`);
   }
 }
